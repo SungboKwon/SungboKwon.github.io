@@ -2,6 +2,8 @@
 layout: post
 title: Codility Spooktober Challenge
 subtitle: Gold Award Log
+categories: markdown
+tags: [challenge, codility, goldaward]
 ---
 
 [Award Link](https://app.codility.com/cert/view/certVQ26T5-7ERYKYPG57AZP87U/)
