@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Codility Spooktober Challenge
-subtitle: Gold Award Log
+title: Codility Spooktober Challenge(Oct.2021)
+subtitle: Gold Award Log of Codility Challenge
 categories: coding_challenge
 tags: challenge codility gold award
 ---
