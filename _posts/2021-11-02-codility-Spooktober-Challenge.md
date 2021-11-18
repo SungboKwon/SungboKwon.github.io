@@ -12,11 +12,14 @@ You can find 'Task Description' in [Codility Challenge](https://app.codility.com
 
 ## Main Concept
 각 stack의 coin은 한 step 좌우로 이동할 때 마다 절반으로 감소합니다.
+
 | 2nd step | 1st step | start | 1st step | 2nd step |
+|:---:|:---:|:---:|:---:|:---:|
 | 1 <- | 2 <- | 5 | -> 2 | -> 1 |
 
 stack 별로 coin의 이동을 구하여 stack 별로 합산합니다.
 | stack | 1st stack | 2nd stack | 3nd stack | 4th stack | 5th stack |
+|:---:|:---:|:---:|:---:|:---:|:---:|
 | original | 1 | 2 | 0 | 4 | 2 |
 | 1st stack | 1 | -> 0 | -> 0 | -> 0 | -> 0 |
 | 2nd stack | 1 <- | 2 | -> 1 | -> 0 | -> 0 |
