@@ -18,6 +18,7 @@ You can find 'Task Description' in [Codility Challenge](https://app.codility.com
 | 1 <- | 2 <- | 5 | -> 2 | -> 1 |
 
 stack 별로 coin의 이동을 구하여 stack 별로 합산합니다.
+
 | stack | 1st stack | 2nd stack | 3nd stack | 4th stack | 5th stack |
 |:---:|:---:|:---:|:---:|:---:|:---:|
 | original | 1 | 2 | 0 | 4 | 2 |
