@@ -2,7 +2,7 @@
 layout: post
 title: Codility Spooktober Challenge
 subtitle: Gold Award Log
-categories: Coding Challenge
+categories: coding_challenge
 tags: challenge codility gold award
 ---
 
