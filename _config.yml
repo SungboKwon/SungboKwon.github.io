@@ -29,7 +29,6 @@ email: ksbhj9@gmail.com
 author: Sungbo Kwon
 
 
-
 # Copyright setting
 # You can use any html code, currently below placeholders are available:
 # * current year: {currentYear}
@@ -45,11 +44,9 @@ author: Sungbo Kwon
 copyright: "Copyright (c) 2017-{currentYear} {author}"
 
 description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  Blog of Sungbo Kwon.
 
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://SungboKwon.github.com" # the base hostname & protocol for your site, e.g. http://example.com
 favicon: "" # the favicon for your site
 
@@ -74,7 +71,7 @@ yat:
 # sitemap: false
 
 # If you want to change site language, you can set lang option
- lang: "ko"  # default lang is en
+lang: "ko"  # default lang is en
 
 # Translate languges
 # langs refer to https://cloud.google.com/translate/docs/languages
