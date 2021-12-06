@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Linear Regression Basic
-subtitle: Gold Award Log
+subtitle: Coursera Machine Learning Course
 categories: machine-learning
 tags: [machine learning, coursera, linear regression]
 ---
