@@ -8,8 +8,10 @@ tags: [machine learning, coursera, linear regression]
 
 Cousera의 Ng교수님 수업 수강하며 내용을 요약합니다.
 
-[1. Linear Regression](https://https://www.boboblog.io/machine-learning/2021/11/20/Linear-Regression.html)
+[1. Linear Regression](https://https://www.boboblog.io/machine-learning/2021/11/20/linear-regression.html)
+
 [2. Logistic Regression]()
+
 [3. Underfitting and Overfitting]()
 
 ----------------------------------------------------------------
