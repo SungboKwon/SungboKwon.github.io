@@ -26,5 +26,7 @@ iteration을 뒤에서 앞으로 반복하며 'abb'패턴을 탐색합니다.
 ## Computational Complexity (Big-O)
 **O(N)** for worst/general/best cases.
 
-<- 방향 iteration 속에 -> 방향 iteration이 존재하기 때문에 O($N^2$)의 복잡도를 갖는다고 착각할 수 있습니다.
+<- 방향 iteration 속에 -> 방향 iteration이 존재하기 때문에
+$O(N^2)$
+의 복잡도를 갖는다고 착각할 수 있습니다.
 하지만 ->방향 iteration은 반복되는 'b'문자에 대해서만 수행하고, 반복되는 'b'문자에 대해 한 번의 iteration을 수행하면 해당 반복이 사라져 재 탐색을 하지 않아도 됩니다. 따라서 <-방향 iteration이 N, ->방향 iteration이 worst case N으로 N + N의 복잡도를 갖게 되고, 결국 worst case에도 O(N)이 됩니다.

@@ -35,28 +35,59 @@ Linear Regression은 설정한 다항식에 대한 계수를 찾는 방향으로
 각 입력값에 대한 다양한 차수의 항으로 다항식을 구성했을 때, 계수를 조정하여 데이터의 패턴과 가장 유사한 계수의 집합을 찾아내는 과정이다.
 
 ## Model Representation
-input을 $x_i$, output을 $y_i$라고 했을 때 pair $(x_i, y_i)$를 training example이라고 하고,
-training example의 집합 $(x_i, y_i);i=1,...,m$을 training set이라 한다.
-linear regression을 통해 함수 $h : X -> Y$를 찾으며, $h(x)$를 hypothesis function이라 한다.
-hypothesis function속에 각 항의 정해지지 않은 계수는 $\theta_n$으로 설정한다.
+input을
+$x_i$
+, output을
+$y_i$
+라고 했을 때 pair
+$(x_i, y_i)$
+를 training example이라고 하고,
+training example의 집합
+$(x_i, y_i);i=1,...,m$
+을 training set이라 한다.
+linear regression을 통해 함수
+$h : X -> Y$
+를 찾으며,
+$h(x)$
+를 hypothesis function이라 한다.
+hypothesis function속에 각 항의 정해지지 않은 계수는
+$\theta_n$
+으로 설정한다.
 
 ## Cost Function
-$y_i$와 학습을 통해 정해질 $h(x_i)$의 값의 차이는 예측에 대한 오차이다.
+$y_i$
+와 학습을 통해 정해질
+$h(x_i)$
+의 값의 차이는 예측에 대한 오차이다.
 이 오차는 linear regression에 대한 cost가 된다.
 training example들에 대한 error들을 최소화하는 방안으로  Minimum Mean Square Error(MMSE)라는 통계적 기법을 사용한다.
 >MMSE
+
 >Error의 제곱의 평균을 최소화하여 찾고자 하는 값에 가장 근사한 값을 찾는다.
 
-MSE = $j(\theta_0, \theta_1) = \frac{1}{2m}\sum_{i=1}^{m}(h_\theta(x_i)-y_i)^2 가 된다.
-$J(\theta)$를 최소화하는 $\theta$를 찾으면 hypothesis function을 찾을 수 있다.
+MSE =
+$j(\theta_0, \theta_1) = \frac{1}{2m}\sum_{i=1}^{m}(h_\theta(x_i)-y_i)^2$
+가 된다.
+$J(\theta)$
+를 최소화하는
+$\theta$
+를 찾으면 hypothesis function을 찾을 수 있다.
 J를 찾는 과정에서, Gradient Descent와 Normal Equation을 사용할 수 있다.
-알고리즘 복잡도는 Gradient Descent가 $O(n^2)$, Normal Equation이 $O(n^3)$으로,
+알고리즘 복잡도는 Gradient Descent가
+$O(n^2)$
+, Normal Equation이
+$O(n^3)$
+으로,
 training set의 규모가 적을 때 Normal Equation이, 클 때 Gradient Descent가 유리하다.
 
 ## Gradient Descent
-Initial $\theta$로부터 시작하여 각 차원에 대한 편미분 값을 빼며 극소값으로 점근하는 방법이다.
+Initial
+$\theta$
+로부터 시작하여 각 차원에 대한 편미분 값을 빼며 극소값으로 점근하는 방법이다.
 Linear하지 않은 경우 Local Minimum으로 빠질 수 있다.
-Learning Rate($\alpha$)가 크면 diverge(발산)할 수 있고, 너무 작으면 converge(수렴)까지 오래걸린다.
+Learning Rate(
+$\alpha$
+)가 크면 diverge(발산)할 수 있고, 너무 작으면 converge(수렴)까지 오래걸린다.
 
 $\theta_n := \theta_n - \alpha\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x_i) - y_i)x_i; x_0 = 1$
 
@@ -68,11 +99,15 @@ $\vec{\theta_n} := \vec{\theta_n} - \alpha\frac{1}{m}XX^T\vec{\theta} - X^TY$
 ## Normal Equation
 미분 값이 0이 될 때 함수는 극값을 갖는다.
 각 $theta_n에 대해 편미분하여 극값을 갖는 $theta_n을 찾는다.
+
 $XX^T\vec{\theta} - X^TY = 0$
+
 $\vec{\theta} = (XX^T)^-1X^TY$
 
 
-각 편미분식의 해를 찾을 수 있는지 혹은 $XX^T$의 역행렬을 찾을 수 있는지가 문제가 된다.
+각 편미분식의 해를 찾을 수 있는지 혹은
+$XX^T$
+의 역행렬을 찾을 수 있는지가 문제가 된다.
 redundant feature(선형적 의존)를 없애고,
 training set보다 feature가 더 많은 경우는 feature를 줄이거나 regularization을 수행한다.
 
