@@ -56,7 +56,7 @@ sidebar:
     </div>
     {%- endif -%}
 
-    {%- assign result = hidden | where_exp: "item", "item == 'comments'" -%}
+    <!--{%- assign result = hidden | where_exp: "item", "item == 'comments'" -%}
     {%- if result.size == 0 -%}
     <div class="post-comments">
       {%- if page.comments != false -%}
@@ -72,6 +72,13 @@ sidebar:
       {%- endif -%}
     </div>
     {%- endif -%}
-
+    -->
+    <script src="https://utteranc.es/client.js"
+        repo="SungboKwon / SungboKwon.github.io"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+    </script>
   </section>
 </div>
