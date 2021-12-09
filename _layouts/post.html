@@ -25,30 +25,36 @@ sidebar:
 
     {%- include views/article.html -%}
 
-    {%- assign result = hidden | where_exp: "item", "item == 'navigator'" -%}
-    {%- assign c_posts = site.posts | where: page.category -%}
-    {%- assign page.c_previous = nil -%}
-    {%- assign page.c_next = nil -%}
+    {%- assign c_posts = site.posts | where_exp: "item", "item.categories == page.categories" -%}
+
+    {%- assign c_previous = nil -%}
+    {%- assign c_next = nil -%}
+    {%- assign t_previous = nil -%}
+    {%- assign t_found = false -%}
     {%- for c_post in c_posts -%}
-      {%- if c_post.title = page.title -%}
-        {%- assign page.c_next = c_post -%}
+      {%- if c_post.title == page.title -%}
+        {%- assign c_previous = t_previous -%}
+        {%- assign t_found = true -%}
+      {%- elsif t_found == true -%}
+        {%- assign c_next = c_post -%}
         {%- break -%}
       {%- endif -%}
-      {%- assign page.c_previous = page.c_next -%}
-      {%- assign page.c_next = c_post -%}
+      {%- assign t_previous = c_post -%}
     {%- endfor -%}
+
+    {%- assign result = hidden | where_exp: "item", "item == 'navigator'" -%}
     {%- if result.size == 0 -%}
     <div class="post-nav">
-      {%- if page.c_previous -%}
-        <a class="previous" href="{{ page.c_previous.url | relative_url }}" title="{{
-          page.c_previous.title | escape }}">{{ page.c_previous.title | escape | truncatewords: 6 }}</a>
+      {%- if c_previous -%}
+        <a class="previous" href="{{ c_previous.url | relative_url }}" title="{{
+          c_previous.title | escape }}">{{ c_previous.title | escape | truncatewords: 6 }}</a>
       {%- else -%}
       <span></span>
       {%- endif -%}
 
-      {%- if page.c_next -%}
-        <a class="next" href="{{ page.c_next.url | relative_url }}" title="{{
-          page.c_next.title | escape }}">{{ page.c_next.title | escape | truncatewords: 6 }}</a>
+      {%- if c_next -%}
+        <a class="next" href="{{ c_next.url | relative_url }}" title="{{
+          c_next.title | escape }}">{{ c_next.title | escape | truncatewords: 6 }}</a>
       {%- else -%}
       <span></span>
       {%- endif -%}
