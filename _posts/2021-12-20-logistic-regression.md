@@ -83,7 +83,7 @@ $\theta_n := \theta_n - \alpha\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x_i) - y_i)x_i;
 $h_\theta(x_i)$
 에만 sigmoid function을 포함하는 hypothesis function을 적용하는 방식으로 식을 구한다.
 
-$\vec{\theta_n} := \vec{\theta_n} - \alpha\frac{1}{m}X\sigmoid(X^T\vec{\theta}) - X^TY$
+$\vec{\theta_n} := \vec{\theta_n} - \alpha\frac{1}{m}Xsigmoid(X^T\vec{\theta}) - X^TY$
 
 ## Multiclass Classification
 y의 값이 0,1 두가지가 아니라 여러가지인 경우의 문제이다.

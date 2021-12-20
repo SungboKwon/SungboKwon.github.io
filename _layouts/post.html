@@ -25,7 +25,7 @@ sidebar:
 
     {%- include views/article.html -%}
 
-    {%- assign c_posts = site.posts | where_exp: "item", "item.categories == page.categories" -%}
+    {%- assign c_posts = site.posts | sort: "date" | where_exp: "item", "item.categories == page.categories" -%}
 
     {%- assign c_previous = nil -%}
     {%- assign c_next = nil -%}
