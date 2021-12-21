@@ -58,7 +58,7 @@ $y_i$
 의 차에 따라 그 값이 0에서
 $\infty$
 까지 변화하는 log 함수를 통해 표현한다.
-$J(\theta) = \frac{1}{2m}\sum_{i=1}^{m}[y_i\log(h_\theta(x_i))+(1-y_i)\log(1-h_\theta(x_i))]$
+$J(\theta) = \frac{1}{m}\sum_{i=1}^{m}[y_i\log(h_\theta(x_i))+(1-y_i)\log(1-h_\theta(x_i))]$
 
 $J(\theta)$
 를 최소화하는

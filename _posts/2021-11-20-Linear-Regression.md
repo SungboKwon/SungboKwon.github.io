@@ -61,7 +61,7 @@ training example들에 대한 error들을 최소화하는 방안으로  Minimum 
 >Error의 제곱의 평균을 최소화하여 찾고자 하는 값에 가장 근사한 값을 찾는다.
 
 
-$MSE = j(\theta) = \frac{1}{2m}\sum_{i=1}^{m}(h_\theta(x_i)-y_i)^2$
+$MSE = J(\theta) = \frac{1}{2m}\sum_{i=1}^{m}(h_\theta(x_i)-y_i)^2$
 가 된다.
 $J(\theta)$
 를 최소화하는
