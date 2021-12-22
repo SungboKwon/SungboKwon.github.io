@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Linear Regression Basic
+title: Overfitting and Regularization
 subtitle: Coursera Machine Learning Course
 categories: machine-learning
-tags: [machine learning, coursera, linear regression]
+tags: [machine learning, coursera, regularization]
 ---
 
 Cousera의 Ng교수님 수업 수강하며 내용을 요약합니다.
