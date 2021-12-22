@@ -54,9 +54,9 @@ Normal Equation에서는
 $(n+1)*(n+1)$
 의 Identity Matrix에서 (1,1)의 값이 0인 행렬을 A라고 할 때,
 
-$XX^T\vec{\theta} - X^TY + \lambdaA\vec{\theta} = 0$
+$XX^T\vec{\theta} - X^TY + \lambda A\vec{\theta} = 0$
 
-$\vec{\theta} = (XX^T+\lambdaA)^-1X^TY$
+$\vec{\theta} = (XX^T+\lambda A)^-1X^TY$
 와 같이 구할 수 있다.
 
 ## Regularized Logistic Regression
