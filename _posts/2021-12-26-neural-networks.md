@@ -3,7 +3,7 @@ layout: post
 title: Neural Networks
 subtitle: Coursera Machine Learning Course
 categories: machine-learning
-tags: [machine learning, coursera, regularization]
+tags: [machine learning, coursera, neural network]
 ---
 
 Cousera의 Ng교수님 수업 수강하며 내용을 요약합니다.
