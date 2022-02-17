@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ko"><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="https://www.boboblog.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.boboblog.io/" rel="alternate" type="text/html" hreflang="ko" /><updated>2022-02-17T03:52:03+00:00</updated><id>https://www.boboblog.io/feed.xml</id><title type="html">BoBoBlog</title><subtitle>Blog of Sungbo Kwon.</subtitle><author><name>Sungbo Kwon</name></author><entry><title type="html">Neural Networks</title><link href="https://www.boboblog.io/machine-learning/2021/12/26/neural-networks.html" rel="alternate" type="text/html" title="Neural Networks" /><published>2021-12-26T00:00:00+00:00</published><updated>2021-12-26T00:00:00+00:00</updated><id>https://www.boboblog.io/machine-learning/2021/12/26/neural-networks</id><content type="html" xml:base="https://www.boboblog.io/machine-learning/2021/12/26/neural-networks.html"><![CDATA[<p>Cousera의 Ng교수님 수업 수강하며 내용을 요약합니다.</p>
+
+<hr />
+
+<h2 id="neural-networks">Neural Networks</h2>
+
+<p>Feature가 굉장히 많고, Linear하지 않은 등의 경우에 대한 Classification 문제를 해결하기 위해 Neural Networks를 사용한다.
+인체의 신경망의 동작을 흉내내는 알고리즘으로, 하나의 (neuron)이 logistic unit으로 표현되고, 이러한 logistic unit이 여러개 모인 계층을 여러개 묶어 하나의 학습을 진행하는 형태로 이루어진다.</p>
+
+<h2 id="model-representation">Model Representation</h2>
+<p>Logistic Unit은 Sigmoid (logistic) activation function
+$a_j^{(i)}$
+로 표현된다.(i: layer number, j: layer 내 unit 순번)</p>
+
+<p>$a_j^{(i)} = sigmoid(\vec{\theta_j^{(i-1)}}\vec{a_{k}^{(i-1)}})$</p>
+
+<p>Logistic Unit의 조합을 통해 이산 논리 회로를 구성할 수 있다(AND/OR/NOT/XOR 등)</p>
+
+<h2 id="multiclass-classification">Multiclass Classification</h2>
+<p>마지막 Layer의 Unit의 수가 Class 수 만큼 존재하도록 구성한다.</p>
+
+<h2 id="cost-function">Cost Function</h2>
+
+<h2 id="backpropagation">Backpropagation</h2>
+
+<p>모든 i, j, l에 대해 $/Delta_{i, j}^{(l)}:=0$ 로 초기화한다.</p>
+
+<p>각 training example에 대해,</p>
+<ol>
+  <li>$a^{(1)} := x^{(t)}$</li>
+  <li>forward propagation을 수행하며 $a^{(l)}$을 구한다.</li>
+</ol>
+
+<p>$a^{(n)} = sigmoid(\theta^{(n-1)}a^{(n-1)})$</p>
+<ol>
+  <li>$\delta^{(L)} = a^{(L)} - y^{(t)}$를 구한다.</li>
+  <li>back propagation을 수행하며 $\delta^{(l)}$을 구한다.</li>
+</ol>
+
+<p>$\delta^{(l)} = ((\theta^{(l)})^T\delta^{(l+1)}).<em>a^{(l)}.</em>(1-a^{(l)})$</p>
+
+<blockquote>
+  <p>특정 unit의 cost function을</p>
+</blockquote>
+
+<p>(WHY?)</p>
+<ol>
+  <li>$\Delta$를 업데이트한다.</li>
+</ol>
+
+<p>$\Delta^{(l)}:=\Delta^{(l)}+\delta^{(l+1)}(a^{(l)})^T$</p>
+
+<p>$D_{i,j}^{(l)}:=\frac{1}{m}(\Delta_{(i,j)}^{(l)}+\lambda\theta^{(l)}_{i,j})$, if j is not 0</p>
+
+<p>$D_{i,j}^{(l)}:=\frac{1}{m}\Delta_{(i,j)}^{(l)}$, if j = 0</p>
+
+<p>Gradient descent의 Cost Function 편미분항은 $D_{i,j}^{(l)}$이다.</p>
+
+<h2 id="unrolling-parameters">Unrolling Parameters</h2>
+
+<p>fminunc등의 함수를 사용하기 위해 vector를 parameter로 넘겨야 한다.</p>
+<blockquote>
+  <p>thetaVector = [Theta1(:); Theta2(:);]</p>
+</blockquote>
+
+<p>처럼 nxm 차원의 matrix를 n*m 차원의 vector로 변환한다(unrolling)</p>
+
+<p>fminunc 함수의 결과물을 reshape 함수를 수행하여 matrix로 변환한다.</p>
+<blockquote>
+  <p>reshape(thetaVec(111:120), 10, 11)</p>
+</blockquote>
+
+<h2 id="gradient-checking">Gradient Checking</h2>
+<p>back propagation이 오동작 할 수 있다.
+이에 대한 검증을 위해 Gradient Checking을 수행한다.</p>
+
+<p>$\frac{\partial}{\partial\Theta}J(\Theta) \approx \frac{J(\Theta + \epsilon) - J(\Theta - \epsilon)}{2\epsilon}$</p>
+
+<p>위 수식으로 특정 $\Theta$에서의 J의 근사된 편미분값을 구할 수 있다.
+Backpropagation으로 구한 편미분값과 근사된 편미분값이 근사하다면 Backpropagation이 정상동작한다는 것을 확인할 수 있다.
+이후 gradient check없이 Backpropagation을 수행할 수 있다.</p>
+
+<blockquote>
+  <p>근사된 gradient는 로직은 간단하지만 연산 수행 속도가 느려 Backpropagation을 대체할 수 없다.</p>
+</blockquote>
+
+<h2 id="random-initialization">Random Initialization</h2>
+<p>$\Theta$의 초기값을 설정할 때 Symmetric하게 설정될 경우 Backpropagation을 동일하게 수행하여 학습이 제대로 이루어질 수 없다.
+Symmetric하지 않은 초기값 설정을 위해 $-\epsilon$에서 $\epsilon$ 사이의 Random 값으로 초기값을 설정한다.</p>
+<blockquote>
+  <p>Theta1 = rand(10,11)<em>(2</em>INIT_EPSILON) - INIT_EPSILON;</p>
+</blockquote>
+
+<h2 id="neural-network-process">Neural Network Process</h2>
+<ol>
+  <li>Neural Network Architecture : 각 Hidden Layer의 Unit의 수를 모두 같도록 하는 것을 default로 한다.</li>
+  <li>Random Initialization</li>
+  <li>Forward Propagation -&gt; get hypothesis function</li>
+  <li>implement cost function</li>
+  <li>implement Backpropagation -&gt; partial derivatives</li>
+  <li>gradient check 을 통해 Backpropagation 동작 검사</li>
+  <li>fminunc, Backpropagation을 통해 학습</li>
+</ol>
+
+<blockquote>
+  <p>Gradient descent는 경사에 따른 하강을, Backpropagation은 하강의 방향을 정한다.</p>
+</blockquote>]]></content><author><name>Sungbo Kwon</name></author><category term="machine-learning" /><category term="machine learning" /><category term="coursera" /><category term="neural network" /><summary type="html"><![CDATA[Cousera의 Ng교수님 수업 수강하며 내용을 요약합니다.]]></summary></entry><entry><title type="html">Overfitting and Regularization</title><link href="https://www.boboblog.io/machine-learning/2021/12/21/overfitting-underfitting.html" rel="alternate" type="text/html" title="Overfitting and Regularization" /><published>2021-12-21T00:00:00+00:00</published><updated>2021-12-21T00:00:00+00:00</updated><id>https://www.boboblog.io/machine-learning/2021/12/21/overfitting-underfitting</id><content type="html" xml:base="https://www.boboblog.io/machine-learning/2021/12/21/overfitting-underfitting.html"><![CDATA[<p>Cousera의 Ng교수님 수업 수강하며 내용을 요약합니다.</p>
+
+<hr />
+
+<h2 id="underfitting-and-overfitting">Underfitting And Overfitting</h2>
+
+<p>Underfitting은 학습을 통한 결과 hypothesis function이 충분히 맞춰지지(fit) 않은 것으로,
+feature의 수가 적으면 발생하며, training example조차도 예측률이 떨어진다.
+Overfitting은 학습을 통한 결과 hypothesis function이 지나치게 맞춰진(fit) 것으로,
+feature의 수가 많을 때 고차항의 계수등 일부 계수(
+$\theta$
+)가 Cost Function에 과한 영향을 미쳐 발생한다. training example set에 대해 높은 예측률을 보이지만 새로운 data에 대한 예측에 실패하게 된다.</p>
+
+<p>underfitting은 고차항과 feature의 곱으로 이루어진 항 등을 추가하여 해소할 수 있다.
+overfitting은 feature를 줄이거나(고차항을 없애는 등) Regularization을 통해 해소할 수 있다.</p>
+
+<h2 id="regularization">Regularization</h2>
+<p>특정 항이 Cost Function에 과한 영향을 미치는 것을 방지하기 위해 각 항의 Cost Function에 대한 영향을 평준화하는 방법이다.
+Cost Function에 일정 계수를 가진
+$\theta$
+의 제곱항을 더해준다.
+이로 인해
+$\theta$
+의 값이 전체 Cost에 주는 영향이 상대적으로 감소한다.</p>
+
+<p>$J(\theta) = \frac{1}{2m}[\sum_{i=1}^{m}(h_\theta(x_i)-y_i)^2 + \lambda\sum_{j=1}^{n}\theta_j^2]$</p>
+
+<p>이 때 lambda의 값이 지나치게 커지면
+$\theta$
+의 값이 0으로 수렴하면서 Underfitting이 발생하게 된다.</p>
+
+<h2 id="regularized-linear-regression">Regularized Linear Regression</h2>
+<p>Cost Funtion은 상기한
+$J(\theta)$
+와 같다.</p>
+
+<p>Gradient Descent에서는 기존의 각
+$\theta$
+에 대한 편미분 식에 Regularazation항의 편미분 항이 추가된다.</p>
+
+<p>$-\alpha\frac{\lambda}{m}\theta$</p>
+
+<p>Normal Equation에서는
+$(n+1)*(n+1)$
+의 Identity Matrix에서 (1,1)의 값이 0인 행렬을 A라고 할 때,</p>
+
+<p>$XX^T\vec{\theta} - X^TY + \lambda A\vec{\theta} = 0$</p>
+
+<p>$\vec{\theta} = (XX^T+\lambda A)^-1X^TY$
+와 같이 구할 수 있다.</p>
+
+<h2 id="regularized-logistic-regression">Regularized Logistic Regression</h2>
+
+<p>Cost Funtion 마찬가지로 Logistic Regression의 Cost Function에 lambda를 계수로 한
+$\theta^2$
+항을 더해준다.</p>
+
+<p>$J(\theta) = \frac{1}{m}\sum_{i=1}^{m}[y_i\log(h_\theta(x_i))+(1-y_i)\log(1-h_\theta(x_i))] + \frac{\lambda}{2m}\sum_{j=1}^{n}\theta_j^2$</p>
+
+<p>Gradient Descent에서도 Linear Regression과 동일하게 기존의 각
+$\theta$
+에 대한 편미분 식에 Regularazation항의 편미분 항이 추가된다.</p>
+
+<p>$-\alpha\frac{\lambda}{m}\theta$</p>
+
+<h2 id="issues">Issues</h2>
+<ul>
+  <li>적정한 lambda의 값을 정하는 방법은?</li>
+  <li>Regularization 외에 Overfitting 해소를 위한 방법은 없는가?</li>
+</ul>]]></content><author><name>Sungbo Kwon</name></author><category term="machine-learning" /><category term="machine learning" /><category term="coursera" /><category term="regularization" /><summary type="html"><![CDATA[Cousera의 Ng교수님 수업 수강하며 내용을 요약합니다.]]></summary></entry><entry><title type="html">Logistic Regression Basic</title><link href="https://www.boboblog.io/machine-learning/2021/12/20/logistic-regression.html" rel="alternate" type="text/html" title="Logistic Regression Basic" /><published>2021-12-20T00:00:00+00:00</published><updated>2021-12-20T00:00:00+00:00</updated><id>https://www.boboblog.io/machine-learning/2021/12/20/logistic-regression</id><content type="html" xml:base="https://www.boboblog.io/machine-learning/2021/12/20/logistic-regression.html"><![CDATA[<p>Cousera의 Ng교수님 수업 수강하며 내용을 요약합니다.</p>
+
+<hr />
+
+<h2 id="what-is-logistic-regression">What is Logistic Regression</h2>
+
+<p>Linear Regression이 연속한 차원의 결과값을 구하는 식의 계수를 찾는 과정이었다면, Logistic Regression은 이산 차원의 결과(0 or 1)를 구하는 식의 계수를 찾는 과정이다. 이를 위해 Logistic Regression의 Model은 Sigmoid Function을 통해 정의되며, 이로 인한 편미분 식의 차이는 있으나 전반적인 방법론은 Linear Regression과 동일하다.</p>
+
+<h2 id="hypothesis-representation">Hypothesis Representation</h2>
+<p>input을
+$x_i$
+, output을
+$y_i$
+라고 했을 때 pair
+$(x_i, y_i)$
+를 training example이라고 하고,
+training example의 집합
+$(x_i, y_i);i=1,…,m$
+을 training set이라 한다.
+logistic regression을 통해 함수
+$h : X -&gt; Y$
+를 찾으며,
+$h(x)$
+를 hypothesis function이라 한다.
+hypothesis function속에 각 항의 정해지지 않은 계수는
+$\theta_n$
+으로 설정한다.
+( =&gt; Linear Regression과 동일)</p>
+
+<p>Y는 0 혹은 1로 이루어져 있기 때문에 sigmoid function
+$g(z) = \frac{1}{1+e^{-z}}$
+를 이용하여
+$h(x) = g(\theta^Tx) = \frac{1}{1+e^{-\theta^Tx}}$
+가 된다.</p>
+
+<h2 id="cost-function">Cost Function</h2>
+<p>MMSE는
+$h(x)$
+와
+$y_i$
+간의 차(오차)를 제곱하여 cost를 구한다.
+하지만 sigmoid function을 사용한 logistic regression의 hypothesis function에 이를 적용할 경우 local minimum이 많아져 gradient descent가 좋은 결과를 내기 어려워진다.
+따라서 cost function은
+$h(x_i)$
+와
+$y_i$
+의 차에 따라 그 값이 0에서
+$\infty$
+까지 변화하는 log 함수를 통해 표현한다.
+$J(\theta) = \frac{1}{m}\sum_{i=1}^{m}[y_i\log(h_\theta(x_i))+(1-y_i)\log(1-h_\theta(x_i))]$</p>
+
+<p>$J(\theta)$
+를 최소화하는
+$\theta$
+를 찾으면 hypothesis function을 찾을 수 있다.
+J를 찾는 과정에서, Gradient Descent와 Normal Equation을 사용할 수 있다.
+알고리즘 복잡도는 Gradient Descent가
+$O(n^2)$
+, Normal Equation이
+$O(n^3)$
+으로,
+training set의 규모가 적을 때 Normal Equation이, 클 때 Gradient Descent가 유리하다.</p>
+
+<h2 id="gradient-descent">Gradient Descent</h2>
+<p>Initial
+$\theta$
+로부터 시작하여 각 차원에 대한 편미분 값을 빼며 극소값으로 점근하는 방법이다.
+마찬가지로 sigmoid function을 그대로 편미분하면 local minimum으로 빠질 수 있기 때문에
+$h(x)$가 linear한 경우의 편미분 식(linear regression에서 구한 편미분 식)
+$\theta_n := \theta_n - \alpha\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x_i) - y_i)x_i; x_0 = 1$
+에
+$h_\theta(x_i)$
+에만 sigmoid function을 포함하는 hypothesis function을 적용하는 방식으로 식을 구한다.</p>
+
+<p>$\vec{\theta_n} := \vec{\theta_n} - \alpha\frac{1}{m}Xsigmoid(X^T\vec{\theta}) - X^TY$</p>
+
+<h2 id="multiclass-classification">Multiclass Classification</h2>
+<p>y의 값이 0,1 두가지가 아니라 여러가지인 경우의 문제이다.
+y의 결과값을 A, B, C, …라고 했을 때,
+결과가 A인 경우를 1, 나머지를 0으로 하여 Single Class문제로 해결한다.
+결과가 B인 경우 또한 1, 나머지를 0으로 하여 해결한다.
+이와 같이 각 결과 값에 대해 1인지의 여부를 찾는 hypothesis function을 찾아 문제를 해결할 수 있다.</p>
+
+<h2 id="issues">Issues</h2>
+<ul>
+  <li>Gradient Descent, Normal Equation외의 알고리즘을 Logistic Regression에 적용한다면?</li>
+  <li>Cost Function과 Gradient Descent의 편미분 식의 수학적 근거를 더욱 깊이 확인해보자.</li>
+</ul>]]></content><author><name>Sungbo Kwon</name></author><category term="machine-learning" /><category term="machine learning" /><category term="coursera" /><category term="logistic regression" /><summary type="html"><![CDATA[Cousera의 Ng교수님 수업 수강하며 내용을 요약합니다.]]></summary></entry><entry><title type="html">Linear Regression Basic</title><link href="https://www.boboblog.io/machine-learning/2021/11/20/Linear-Regression.html" rel="alternate" type="text/html" title="Linear Regression Basic" /><published>2021-11-20T00:00:00+00:00</published><updated>2021-11-20T00:00:00+00:00</updated><id>https://www.boboblog.io/machine-learning/2021/11/20/Linear-Regression</id><content type="html" xml:base="https://www.boboblog.io/machine-learning/2021/11/20/Linear-Regression.html"><![CDATA[<p>Cousera의 Ng교수님 수업 수강하며 내용을 요약합니다.</p>
+
+<hr />
+
+<h2 id="what-is-linear-regression">What is Linear Regression</h2>
+<blockquote>
+  <p>티코 브라헤는 덴마크 왕가(프레데릭 2세)의 전폭적인 지원과 자신의 재능을 바탕으로 장기간 천문을 관측하여 방대한 데이터를 수집합니다.
+프레데릭 2세의 죽음과 함께 신성 로마제국의 프라하로 옮긴 브라헤는 독일의 수학자이자 천문학자인 요하네스 케플러를 채용합니다.
+브라헤의 죽음으로 브라헤의 방대한 데이터를 얻은 케플러는 이 데이터를 정리하기 시작한다.
+당시 케플러는 행성의 공전 궤도가 원 궤도일 것이라고 믿고 원 궤도에 데이터를 맞추어보았으나 약간의 오차가 발생한다.
+브라헤의 관측에 대한 오차보다 더 믄 오차가 발생한다고 생각한 케플러는 ‘화성의 전투’라고 불리는 방대한 계산을 통해 행성 궤도에 대한 식을 찾아낸다.
+이것이 케플러의 제 1, 제 2 법칙이며, 케플러의 법칙은 뉴턴 역학의 정립에 큰 영향을 미치게 된다.</p>
+</blockquote>
+
+<p>과학의 발전은 연역과 귀납의 두 엔진을 통해 이루어졌다.
+그 중 특히 귀납적 방법론은, 다양하게 수집된 데이터를 해석하여 일정한 수식을 도출해내고, 이에 대한 설명을 붙이는 방향으로 이루어진다.
+데이터로부터 일정한 수식을 도출해내는 방법 중 하나가 Linear Regression이라고 할 수 있다.
+통계는 과학의 수단에서 인문학으로 그 사용 범위가 확장되었고, 그와 함께 사회 또한 과학적으로 접근하는 사회과학의 한 틀이 되었다.
+이제 우리는 보다 방대하고 다양한 데이터를 수집할 수 있고, 이를 컴퓨터를 통해 빠르게 해석할 수 있는 시대를 살고 있다.</p>
+
+<p>Linear Regression은 설정한 다항식에 대한 계수를 찾는 방향으로 이루어진다.
+‘어떤 상황’에서 ‘어떤 결과’가 나타났는지에 대한 데이터는 각각 ‘어떤 상황’이라는 입력값과 ‘어떤 결과’라는 출력으로 이루어진다.
+각 입력값에 대한 다양한 차수의 항으로 다항식을 구성했을 때, 계수를 조정하여 데이터의 패턴과 가장 유사한 계수의 집합을 찾아내는 과정이다.</p>
+
+<h2 id="model-representation">Model Representation</h2>
+<p>input을
+$x_i$
+, output을
+$y_i$
+라고 했을 때 pair
+$(x_i, y_i)$
+를 training example이라고 하고,
+training example의 집합
+$(x_i, y_i);i=1,…,m$
+을 training set이라 한다.
+linear regression을 통해 함수
+$h : X -&gt; Y$
+를 찾으며,
+$h(x)$
+를 hypothesis function이라 한다.
+hypothesis function속에 각 항의 정해지지 않은 계수는
+$\theta_n$
+으로 설정한다.</p>
+
+<h2 id="cost-function">Cost Function</h2>
+<p>$y_i$
+와 학습을 통해 정해질
+$h(x_i)$
+의 값의 차이는 예측에 대한 오차이다.
+이 오차는 linear regression에 대한 cost가 된다.
+training example들에 대한 error들을 최소화하는 방안으로  Minimum Mean Square Error(MMSE)라는 통계적 기법을 사용한다.</p>
+<blockquote>
+  <p>MMSE</p>
+</blockquote>
+
+<blockquote>
+  <p>Error의 제곱의 평균을 최소화하여 찾고자 하는 값에 가장 근사한 값을 찾는다.</p>
+</blockquote>
+
+<p>$MSE = J(\theta) = \frac{1}{2m}\sum_{i=1}^{m}(h_\theta(x_i)-y_i)^2$
+가 된다.
+$J(\theta)$
+를 최소화하는
+$\theta$
+를 찾으면 hypothesis function을 찾을 수 있다.
+J를 찾는 과정에서, Gradient Descent와 Normal Equation을 사용할 수 있다.
+알고리즘 복잡도는 Gradient Descent가
+$O(n^2)$
+, Normal Equation이
+$O(n^3)$
+으로,
+training set의 규모가 적을 때 Normal Equation이, 클 때 Gradient Descent가 유리하다.</p>
+
+<h2 id="gradient-descent">Gradient Descent</h2>
+<p>Initial
+$\theta$
+로부터 시작하여 각 차원에 대한 편미분 값을 빼며 극소값으로 점근하는 방법이다.
+Linear하지 않은 경우 Local Minimum으로 빠질 수 있다.
+Learning Rate(
+$\alpha$
+)가 크면 diverge(발산)할 수 있고, 너무 작으면 converge(수렴)까지 오래걸린다.</p>
+
+<p>$\theta_n := \theta_n - \alpha\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x_i) - y_i)x_i; x_0 = 1$</p>
+
+<p>$\vec{\theta_n} := \vec{\theta_n} - \alpha\frac{1}{m}XX^T\vec{\theta} - X^TY$</p>
+
+<p>한편 feature의 range가 크게 차이날 경우 점근 중 swing이 많이 발생한다.
+안정적 점근을 위해 feature scaling을 해준다.(각 feature의 range를 조정 : 빼고 나눈다!)</p>
+
+<h2 id="normal-equation">Normal Equation</h2>
+<p>미분 값이 0이 될 때 함수는 극값을 갖는다.
+각 $\theta_n$에 대해 편미분하여 극값을 갖는 $\theta_n$을 찾는다.</p>
+
+<p>$XX^T\vec{\theta} - X^TY = 0$</p>
+
+<p>$\vec{\theta} = (XX^T)^-1X^TY$</p>
+
+<p>각 편미분식의 해를 찾을 수 있는지 혹은
+$XX^T$
+의 역행렬을 찾을 수 있는지가 문제가 된다.
+redundant feature(선형적 의존)를 없애고,
+training set보다 feature가 더 많은 경우는 feature를 줄이거나 regularization을 수행한다.</p>
+
+<h2 id="issues">Issues</h2>
+<ul>
+  <li>Feature를 어떻게 정하는가</li>
+  <li>Data는 어떻게 수집할 수 있는가</li>
+  <li>Mean Square Error에 대한 이해</li>
+  <li>Gradient Descent, Normal Equation외의 알고리즘은 없을까</li>
+  <li>유사한 다른 통계적 기법은 어떤게 있을까
+(추세선과 계절성을 분리하여 각각의 Regression을 수행하는 등)</li>
+</ul>]]></content><author><name>Sungbo Kwon</name></author><category term="machine-learning" /><category term="machine learning" /><category term="coursera" /><category term="linear regression" /><summary type="html"><![CDATA[Cousera의 Ng교수님 수업 수강하며 내용을 요약합니다.]]></summary></entry><entry><title type="html">Codility National Coding Week Challenge</title><link href="https://www.boboblog.io/coding-challenge/2021/11/20/codility-NationalCodingWeek-Challenge.html" rel="alternate" type="text/html" title="Codility National Coding Week Challenge" /><published>2021-11-20T00:00:00+00:00</published><updated>2021-11-20T00:00:00+00:00</updated><id>https://www.boboblog.io/coding-challenge/2021/11/20/codility-NationalCodingWeek-Challenge</id><content type="html" xml:base="https://www.boboblog.io/coding-challenge/2021/11/20/codility-NationalCodingWeek-Challenge.html"><![CDATA[<p>You can find ‘Task Description’ in <a href="https://app.codility.com/programmers/challenges/national_coding_week_2021/">Codility Challenge</a>.</p>
+
+<p>I worked for ended challenge just for fun, and got 100% score. And sharing my solution.</p>
+
+<h2 id="main-concept">Main Concept</h2>
+<p>쉽게 String의 character를 변환하기 위해 char array에 input을 저장합니다.</p>
+
+<p>‘abb’ -&gt; ‘baa’의 변환을 하는 문제입니다.
+b = 1, a = 0이라고 생각하면 011 -&gt; 100으로 바꾸는, 즉 1을 더하는 변환입니다.
+따라서 뒤에서 앞으로 변환을 진행하면 O(N)의 복잡도로 문제를 해결할 수 있습니다.</p>
+
+<p>단, “abbbbbb”와 같은 문자열이 나타난다면 앞에서 뒤로 변환을 수행할 필요가 있습니다.
+“abbbbbb” -&gt; “baabbbb” -&gt; “babaabb” -&gt; “bababaa”</p>
+
+<p>iteration을 뒤에서 앞으로 반복하며 ‘abb’패턴을 탐색합니다.
+‘abb’패턴을 찾으면 이를 ‘baa’로 바꾼 후 해당 지점부터 이어지는 ‘abb’가 더이상 없을 때 까지만 앞에서 뒤로 탐색을 수행합니다.</p>
+
+<h2 id="computational-complexity-big-o">Computational Complexity (Big-O)</h2>
+<p><strong>O(N)</strong> for worst/general/best cases.</p>
+
+<p>&lt;- 방향 iteration 속에 -&gt; 방향 iteration이 존재하기 때문에
+$O(N^2)$
+의 복잡도를 갖는다고 착각할 수 있습니다.
+하지만 -&gt;방향 iteration은 반복되는 ‘b’문자에 대해서만 수행하고, 반복되는 ‘b’문자에 대해 한 번의 iteration을 수행하면 해당 반복이 사라져 재 탐색을 하지 않아도 됩니다. 따라서 &lt;-방향 iteration이 N, -&gt;방향 iteration이 worst case N으로 N + N의 복잡도를 갖게 되고, 결국 worst case에도 O(N)이 됩니다.</p>]]></content><author><name>Sungbo Kwon</name></author><category term="coding-challenge" /><category term="challenge" /><category term="codility" /><summary type="html"><![CDATA[You can find ‘Task Description’ in Codility Challenge.]]></summary></entry><entry><title type="html">Codility Spooktober Challenge</title><link href="https://www.boboblog.io/coding-challenge/2021/11/02/codility-Spooktober-Challenge.html" rel="alternate" type="text/html" title="Codility Spooktober Challenge" /><published>2021-11-02T00:00:00+00:00</published><updated>2021-11-02T00:00:00+00:00</updated><id>https://www.boboblog.io/coding-challenge/2021/11/02/codility-Spooktober-Challenge</id><content type="html" xml:base="https://www.boboblog.io/coding-challenge/2021/11/02/codility-Spooktober-Challenge.html"><![CDATA[<p><a href="https://app.codility.com/cert/view/certVQ26T5-7ERYKYPG57AZP87U/">Award Link</a></p>
+
+<p>You can find ‘Task Description’ in <a href="https://app.codility.com/programmers/challenges/spooktober_2021/">Codility Challenge</a> or in ‘Review detailed assessment’ of <a href="https://app.codility.com/cert/view/certVQ26T5-7ERYKYPG57AZP87U/">Award Link</a>.</p>
+
+<h2 id="main-concept">Main Concept</h2>
+<p>각 stack의 coin은 한 step 좌우로 이동할 때 마다 절반으로 감소합니다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">2nd step</th>
+      <th style="text-align: center">1st step</th>
+      <th style="text-align: center">start</th>
+      <th style="text-align: center">1st step</th>
+      <th style="text-align: center">2nd step</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">1 &lt;-</td>
+      <td style="text-align: center">2 &lt;-</td>
+      <td style="text-align: center">5</td>
+      <td style="text-align: center">-&gt; 2</td>
+      <td style="text-align: center">-&gt; 1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>stack 별로 coin의 이동을 구하여 stack 별로 합산합니다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">stack</th>
+      <th style="text-align: center">1st stack</th>
+      <th style="text-align: center">2nd stack</th>
+      <th style="text-align: center">3nd stack</th>
+      <th style="text-align: center">4th stack</th>
+      <th style="text-align: center">5th stack</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">original</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">2</td>
+      <td style="text-align: center">0</td>
+      <td style="text-align: center">4</td>
+      <td style="text-align: center">2</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">1st stack</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">-&gt; 0</td>
+      <td style="text-align: center">-&gt; 0</td>
+      <td style="text-align: center">-&gt; 0</td>
+      <td style="text-align: center">-&gt; 0</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">2nd stack</td>
+      <td style="text-align: center">1 &lt;-</td>
+      <td style="text-align: center">2</td>
+      <td style="text-align: center">-&gt; 1</td>
+      <td style="text-align: center">-&gt; 0</td>
+      <td style="text-align: center">-&gt; 0</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">3rd stack</td>
+      <td style="text-align: center">0 &lt;-</td>
+      <td style="text-align: center">0 &lt;-</td>
+      <td style="text-align: center">0</td>
+      <td style="text-align: center">-&gt; 0</td>
+      <td style="text-align: center">-&gt; 0</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">4th stack</td>
+      <td style="text-align: center">0 &lt;-</td>
+      <td style="text-align: center">1 &lt;-</td>
+      <td style="text-align: center">2 &lt;-</td>
+      <td style="text-align: center">4</td>
+      <td style="text-align: center">-&gt; 2</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">5th stack</td>
+      <td style="text-align: center">0 &lt;-</td>
+      <td style="text-align: center">0 &lt;-</td>
+      <td style="text-align: center">0 &lt;-</td>
+      <td style="text-align: center">1 &lt;-</td>
+      <td style="text-align: center">2</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">total</td>
+      <td style="text-align: center">2</td>
+      <td style="text-align: center">3</td>
+      <td style="text-align: center">3</td>
+      <td style="text-align: center">5</td>
+      <td style="text-align: center">4</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>위 합산 중 최대값을 가진 stack의 coin 수가 해답이 됩니다.</p>
+
+<h2 id="computational-complexity-big-o">Computational Complexity (Big-O)</h2>
+<p><strong>O(N)</strong> for worst/general/best cases.</p>]]></content><author><name>Sungbo Kwon</name></author><category term="coding-challenge" /><category term="challenge" /><category term="codility" /><category term="gold award" /><summary type="html"><![CDATA[Award Link]]></summary></entry></feed>
