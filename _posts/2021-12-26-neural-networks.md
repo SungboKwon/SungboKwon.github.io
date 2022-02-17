@@ -21,7 +21,7 @@ Logistic Unit은 Sigmoid (logistic) activation function
 $a_j^{(i)}$
 로 표현된다.(i: layer number, j: layer 내 unit 순번)
 
-$a_j^{(i)} = sigmoid(\vec{\theta_j^{(i-1)}}\vec{a_{k}^{(i-1)}})
+$a_j^{(i)} = sigmoid(\vec{\theta_j^{(i-1)}}\vec{a_{k}^{(i-1)}})$
 
 Logistic Unit의 조합을 통해 이산 논리 회로를 구성할 수 있다(AND/OR/NOT/XOR 등)
 
@@ -35,7 +35,7 @@ Logistic Unit의 조합을 통해 이산 논리 회로를 구성할 수 있다(A
 모든 i, j, l에 대해 $/Delta_{i, j}^{(l)}:=0$ 로 초기화한다.
 
 각 training example에 대해,
-1. $a^{(1)} := x^{(t)}
+1. $a^{(1)} := x^{(t)}$
 2. forward propagation을 수행하며 $a^{(l)}$을 구한다.
 
 $a^{(n)} = sigmoid(\theta^{(n-1)}a^{(n-1)})$
@@ -44,7 +44,7 @@ $a^{(n)} = sigmoid(\theta^{(n-1)}a^{(n-1)})$
 
 $\delta^{(l)} = ((\theta^{(l)})^T\delta^{(l+1)}).*a^{(l)}.*(1-a^{(l)})$
 
->>특정 unit의 cost function을  
+>특정 unit의 cost function을  
 
 (WHY?)
 5. $\Delta$를 업데이트한다.
@@ -57,7 +57,7 @@ $D_{i,j}^{(l)}:=\frac{1}{m}\Delta_{(i,j)}^{(l)}$, if j = 0
 
 Gradient descent의 Cost Function 편미분항은 $D_{i,j}^{(l)}$이다.
 
-##Unrolling Parameters
+## Unrolling Parameters
 
 fminunc등의 함수를 사용하기 위해 vector를 parameter로 넘겨야 한다.
 >thetaVector = [Theta1(:); Theta2(:);]
@@ -67,7 +67,7 @@ fminunc등의 함수를 사용하기 위해 vector를 parameter로 넘겨야 한
 fminunc 함수의 결과물을 reshape 함수를 수행하여 matrix로 변환한다.
 >reshape(thetaVec(111:120), 10, 11)
 
-##Gradient Checking
+## Gradient Checking
 back propagation이 오동작 할 수 있다.
 이에 대한 검증을 위해 Gradient Checking을 수행한다.
 
@@ -79,12 +79,12 @@ Backpropagation으로 구한 편미분값과 근사된 편미분값이 근사하
 
 >근사된 gradient는 로직은 간단하지만 연산 수행 속도가 느려 Backpropagation을 대체할 수 없다.
 
-##Random Initialization
+## Random Initialization
 $\Theta$의 초기값을 설정할 때 Symmetric하게 설정될 경우 Backpropagation을 동일하게 수행하여 학습이 제대로 이루어질 수 없다.
 Symmetric하지 않은 초기값 설정을 위해 $-\epsilon$에서 $\epsilon$ 사이의 Random 값으로 초기값을 설정한다.
 >Theta1 = rand(10,11)*(2*INIT_EPSILON) - INIT_EPSILON;
 
-##Neural Network Process
+## Neural Network Process
 1. Neural Network Architecture : 각 Hidden Layer의 Unit의 수를 모두 같도록 하는 것을 default로 한다.
 2. Random Initialization
 3. Forward Propagation -> get hypothesis function
